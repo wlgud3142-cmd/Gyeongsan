@@ -1,9 +1,9 @@
 import React from 'react';
 import { useKindergarten } from '../context/KindergartenContext';
-import { ShieldCheck, Phone, Smartphone } from 'lucide-react';
+import { ShieldCheck, Phone, Smartphone, Lock } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { siteInfo, setCurrentMode } = useKindergarten();
+  const { siteInfo, setCurrentMode, isAdminAuthenticated, setIsAdminModalOpen } = useKindergarten();
 
   return (
     <footer className="bg-slate-900 text-slate-400 text-xs py-14 border-t border-slate-800">
@@ -86,10 +86,18 @@ export const Footer: React.FC = () => {
           </div>
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setCurrentMode('admin')}
-              className="text-slate-400 hover:text-white transition-colors underline underline-offset-2"
+              onClick={() => {
+                if (isAdminAuthenticated) {
+                  setCurrentMode('admin');
+                } else {
+                  setIsAdminModalOpen(true);
+                }
+              }}
+              className="text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1 group"
+              title="원무 관리자 인증 로그인"
             >
-              관리자 CMS 대시보드
+              <Lock className="w-3 h-3 text-slate-600 group-hover:text-slate-400" />
+              <span>{isAdminAuthenticated ? '관리자 CMS (인증됨)' : '원무 관리자'}</span>
             </button>
             <span aria-hidden="true">·</span>
             <span>개인정보처리방침</span>

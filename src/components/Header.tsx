@@ -4,7 +4,7 @@ import { getAccentStyles } from '../utils/themeHelper';
 import { Sparkles, Menu, X, Settings, ArrowUpRight, Phone } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const { siteInfo, themeConfig, currentMode, setCurrentMode, setIsAiModalOpen } = useKindergarten();
+  const { siteInfo, themeConfig, currentMode, setCurrentMode, setIsAiModalOpen, isAdminAuthenticated } = useKindergarten();
   const accent = getAccentStyles(themeConfig.accentColor);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -94,27 +94,33 @@ export const Header: React.FC = () => {
             <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
 
-          <button
-            onClick={() => setCurrentMode(currentMode === 'admin' ? 'website' : 'admin')}
-            className={`px-3 py-2 text-xs font-medium rounded-lg border transition-all flex items-center gap-1.5 ${
-              currentMode === 'admin'
-                ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
-                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
-            }`}
-          >
-            <Settings className="w-3.5 h-3.5" />
-            <span>{currentMode === 'admin' ? '홈페이지 보기' : '관리자 CMS'}</span>
-          </button>
+          {isAdminAuthenticated && (
+            <button
+              onClick={() => setCurrentMode(currentMode === 'admin' ? 'website' : 'admin')}
+              className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-all flex items-center gap-1.5 shadow-sm ${
+                currentMode === 'admin'
+                  ? 'bg-amber-500 text-white border-amber-600'
+                  : 'bg-slate-900 text-white hover:bg-slate-800 border-slate-900'
+              }`}
+              title="관리자 CMS 대시보드"
+            >
+              <Settings className="w-3.5 h-3.5 text-blue-400" />
+              <span>{currentMode === 'admin' ? '홈페이지 보기' : '관리자 CMS'}</span>
+            </button>
+          )}
         </div>
 
         {/* Mobile menu hamburger */}
         <div className="flex items-center gap-2 lg:hidden">
-          <button
-            onClick={() => setCurrentMode(currentMode === 'admin' ? 'website' : 'admin')}
-            className="p-2 text-xs font-medium rounded-lg border border-slate-200 bg-slate-50 text-slate-700"
-          >
-            <Settings className="w-4 h-4" />
-          </button>
+          {isAdminAuthenticated && (
+            <button
+              onClick={() => setCurrentMode(currentMode === 'admin' ? 'website' : 'admin')}
+              className="p-2 text-xs font-medium rounded-lg border border-slate-900 bg-slate-900 text-white"
+              title="관리자 CMS"
+            >
+              <Settings className="w-4 h-4 text-blue-400" />
+            </button>
+          )}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"

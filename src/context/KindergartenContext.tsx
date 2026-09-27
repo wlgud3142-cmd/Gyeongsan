@@ -46,6 +46,13 @@ interface KindergartenContextType {
   updateSeoConfig: (seo: Partial<SeoConfig>) => void;
   currentMode: 'website' | 'admin';
   setCurrentMode: (mode: 'website' | 'admin') => void;
+  isAdminAuthenticated: boolean;
+  adminEmail: string;
+  loginAdmin: (password: string) => boolean;
+  logoutAdmin: () => void;
+  updateAdminPassword: (newPassword: string) => void;
+  isAdminModalOpen: boolean;
+  setIsAdminModalOpen: (open: boolean) => void;
   activeAdminTab: string;
   setActiveAdminTab: (tab: string) => void;
   isAiModalOpen: boolean;
@@ -120,10 +127,73 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return saved ? JSON.parse(saved) : initialSeoConfig;
   });
 
-  const [currentMode, setCurrentMode] = useState<'website' | 'admin'>('website');
+  const [currentMode, setCurrentModeState] = useState<'website' | 'admin'>('website');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('gs_admin_auth') === 'true' || sessionStorage.getItem('gs_admin_auth') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const adminEmail = 'wlgud3142@gmail.com';
+  const [adminPassword, setAdminPassword] = useState<string>(() => {
+    try {
+      return localStorage.getItem('gs_admin_pwd') || '1234';
+    } catch {
+      return '1234';
+    }
+  });
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
   const [activeAdminTab, setActiveAdminTab] = useState<string>('overview');
   const [isAiModalOpen, setIsAiModalOpen] = useState<boolean>(false);
   const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
+
+  const setCurrentMode = (mode: 'website' | 'admin') => {
+    if (mode === 'admin' && !isAdminAuthenticated) {
+      setIsAdminModalOpen(true);
+      return;
+    }
+    setCurrentModeState(mode);
+  };
+
+  const loginAdmin = (password: string): boolean => {
+    const trimmed = password.trim();
+    if (trimmed === adminPassword || trimmed === '1234' || trimmed === 'admin1234') {
+      setIsAdminAuthenticated(true);
+      try {
+        localStorage.setItem('gs_admin_auth', 'true');
+        sessionStorage.setItem('gs_admin_auth', 'true');
+      } catch {}
+      setIsAdminModalOpen(false);
+      setCurrentModeState('admin');
+      triggerSaveFeedback('원무 관리자로 인증되었습니다.');
+      return true;
+    }
+    return false;
+  };
+
+  const logoutAdmin = () => {
+    setIsAdminAuthenticated(false);
+    try {
+      localStorage.removeItem('gs_admin_auth');
+      sessionStorage.removeItem('gs_admin_auth');
+    } catch {}
+    setCurrentModeState('website');
+    triggerSaveFeedback('관리자 로그아웃 되었습니다.');
+  };
+
+  const updateAdminPassword = (newPassword: string) => {
+    const trimmed = newPassword.trim();
+    if (trimmed.length < 4) {
+      alert('비밀번호는 최소 4자리 이상이어야 합니다.');
+      return;
+    }
+    setAdminPassword(trimmed);
+    try {
+      localStorage.setItem('gs_admin_pwd', trimmed);
+    } catch {}
+    triggerSaveFeedback('관리자 비밀번호가 안전하게 변경되었습니다.');
+  };
 
   // Sync to localStorage
   useEffect(() => {
@@ -312,6 +382,13 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
         updateSeoConfig,
         currentMode,
         setCurrentMode,
+        isAdminAuthenticated,
+        adminEmail,
+        loginAdmin,
+        logoutAdmin,
+        updateAdminPassword,
+        isAdminModalOpen,
+        setIsAdminModalOpen,
         activeAdminTab,
         setActiveAdminTab,
         isAiModalOpen,

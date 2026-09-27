@@ -14,6 +14,8 @@ import {
   Eye,
   RotateCcw,
   CheckCircle2,
+  LogOut,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -24,6 +26,8 @@ export const AdminDashboard: React.FC = () => {
     setCurrentMode,
     resetAllToDefault,
     saveFeedback,
+    adminEmail,
+    logoutAdmin,
   } = useKindergarten();
 
   const navItems = [
@@ -64,6 +68,11 @@ export const AdminDashboard: React.FC = () => {
               </div>
             )}
 
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 rounded-lg text-[11px] text-slate-300 border border-slate-700">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="font-mono text-slate-200">{adminEmail}</span>
+            </div>
+
             <button
               onClick={() => {
                 if (confirm('모든 CMS 편집 내용을 초기 샘플 데이터로 복원하시겠습니까?')) {
@@ -83,6 +92,15 @@ export const AdminDashboard: React.FC = () => {
             >
               <Eye className="w-3.5 h-3.5" />
               <span>홈페이지 실시간 보기</span>
+            </button>
+
+            <button
+              onClick={logoutAdmin}
+              className="px-2.5 py-1.5 bg-slate-800 hover:bg-rose-900/60 hover:text-rose-200 text-slate-300 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 border border-slate-700"
+              title="관리자 로그아웃"
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-400" />
+              <span className="hidden sm:inline">로그아웃</span>
             </button>
           </div>
         </div>
