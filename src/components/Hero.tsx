@@ -1,10 +1,10 @@
 import React from 'react';
 import { useKindergarten } from '../context/KindergartenContext';
 import { getAccentStyles } from '../utils/themeHelper';
-import { ArrowRight, Sparkles, PhoneCall, QrCode, ShieldCheck, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, PhoneCall, ShieldCheck, HeartHandshake, CheckCircle2 } from 'lucide-react';
 
 export const Hero: React.FC = () => {
-  const { siteInfo, themeConfig, setIsAiModalOpen } = useKindergarten();
+  const { siteInfo, themeConfig } = useKindergarten();
   const accent = getAccentStyles(themeConfig.accentColor);
 
   return (
@@ -25,10 +25,10 @@ export const Hero: React.FC = () => {
             {/* Unboxed Metadata Trust Bar */}
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
               <span className="text-blue-700 font-extrabold bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200">
-                2026학년도 공립 단설
+                2027학년도 공립 단설
               </span>
               <span aria-hidden="true" className="text-slate-300">·</span>
-              <span className="text-slate-700 font-bold">학부모 부담금 0원</span>
+              <span className="text-slate-700 font-bold">아이 중심·놀이 중심 교육</span>
               <span aria-hidden="true" className="text-slate-300">·</span>
               <span className="text-slate-500 font-mono">총 6학급 · 정원 120명</span>
             </div>
@@ -50,17 +50,17 @@ export const Hero: React.FC = () => {
             </p>
 
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-xl">
-              {siteInfo.tagline} 국가 임용고시 합격 정규 교사진과 정규 보건교사가 상주하며,
-              영남대 숲체험·미래교실·특성화·안심 돌봄교실(08:00~19:00)을 전액 지원으로 운영합니다.
+              {siteInfo.tagline} 국가 임용고시 선발 우수한 정규 교사진과 정규 보건교사가 상주하며,
+              영남대 숲체험·미래교실·자·신·감 특색놀이·안심 돌봄교실(08:00~19:00)을 내실 있게 운영합니다.
             </p>
 
             {/* Quick trust metrics row */}
             <div className="grid grid-cols-3 gap-4 pt-2 border-y border-slate-200/80 py-4 max-w-xl">
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-blue-700 tabular-nums">
-                  0<span className="text-sm font-medium text-slate-500 ml-0.5">원</span>
+                  3<span className="text-sm font-medium text-slate-500 ml-0.5">가지</span>
                 </div>
-                <div className="text-xs text-slate-600 mt-0.5 font-semibold">학부모 부담금 전액 지원</div>
+                <div className="text-xs text-slate-600 mt-0.5 font-semibold">자·신·감 특색놀이</div>
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tabular-nums">
@@ -72,131 +72,90 @@ export const Hero: React.FC = () => {
                 <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tabular-nums">
                   2<span className="text-sm font-medium text-slate-500 ml-0.5">대</span>
                 </div>
-                <div className="text-xs text-slate-500 mt-0.5">대형·중형 통학버스 운행</div>
+                <div className="text-xs text-slate-500 mt-0.5">대형·중형 안심 통학차량</div>
               </div>
             </div>
 
             {/* Dual CTA Actions */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="#admissions"
+                href="#curriculum"
                 className={`px-6 py-3.5 text-xs sm:text-sm font-bold text-white ${accent.bgPrimary} ${accent.bgPrimaryHover} rounded-xl shadow-md shadow-blue-900/10 transition-all transform hover:-translate-y-0.5 flex items-center gap-2 whitespace-nowrap`}
               >
-                <span>2026 원서접수 & 상담신청</span>
+                <span>교육과정 둘러보기</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
-              <button
-                onClick={() => setIsAiModalOpen(true)}
-                className="px-5 py-3.5 text-xs sm:text-sm font-semibold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl shadow-sm transition-all flex items-center gap-2"
-              >
-                <Sparkles className="w-4 h-4 text-blue-600" />
-                <span>24시간 AI 입학상담실</span>
-              </button>
-
               <a
                 href={`tel:${siteInfo.phone}`}
-                className="px-4 py-3.5 text-xs sm:text-sm font-bold text-blue-700 hover:text-blue-900 transition-colors flex items-center gap-1.5"
+                className="px-5 py-3.5 text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl shadow-xs transition-all flex items-center gap-2"
               >
-                <PhoneCall className="w-4 h-4 text-blue-600" />
-                <span>{siteInfo.phone}</span>
+                <PhoneCall className="w-4 h-4 text-emerald-600" />
+                <span>교무실 문의: {siteInfo.phone}</span>
               </a>
             </div>
           </div>
 
-          {/* Right Column: Visual Poster Card & Intro (5 cols) */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-2xl bg-white border border-slate-200/90 shadow-xl overflow-hidden p-6 sm:p-7">
-              {/* Header Badge */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <div>
-                  <span className="text-xs font-extrabold text-blue-700 tracking-wide uppercase">
-                    PUBLIC KINDERGARTEN
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-900">
-                    2026 공립 단설 경산유치원
-                  </h3>
-                </div>
-                <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>공립 단설</span>
-                </div>
-              </div>
-
-              {/* Graphic Banner */}
-              <div className="my-5 rounded-xl overflow-hidden relative aspect-[16/10] bg-gradient-to-br from-blue-950 via-slate-900 to-indigo-950 text-white p-6 flex flex-col justify-between shadow-inner">
-                <div className="relative z-10 flex justify-between items-start">
-                  <div className="bg-white/10 backdrop-blur-md px-3 py-1 rounded text-[11px] font-semibold text-blue-200 border border-white/15">
-                    교육비 전액 무상 지원
+          {/* Right Column: Hero Visual Card (5 cols) */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative mx-auto max-w-md bg-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-200">
+              {/* Badge Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-extrabold text-sm">
+                    경
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] text-slate-300 font-mono">
-                    <QrCode className="w-3.5 h-3.5 text-blue-300" />
-                    <span>소개영상 QR</span>
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 block leading-tight">
+                      공립 단설 경산유치원
+                    </span>
+                    <span className="text-[10px] text-slate-400">경상북도교육청 인가 단독 교육기관</span>
                   </div>
                 </div>
-
-                <div className="relative z-10 space-y-1">
-                  <span className="text-xs text-blue-300 font-bold tracking-wide">
-                    함께 존중하며 세계를 꿈꾸는 유치원
-                  </span>
-                  <h4 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-snug">
-                    아이의 가능성이<br />세상의 가능성으로
-                  </h4>
-                </div>
-
-                <div className="relative z-10 pt-2 flex items-center justify-between border-t border-white/10 text-xs text-slate-300">
-                  <span>정규 보건교사 상주</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    2026 환경개선 선정
-                  </span>
-                </div>
-              </div>
-
-              {/* Highlights List (4 Core Strengths from official poster) */}
-              <div className="space-y-2 text-xs text-slate-600">
-                <div className="flex items-start gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-[10px]">
-                    1
-                  </div>
-                  <p className="leading-relaxed">
-                    <strong className="text-slate-900 font-semibold">믿고 맡길 수 있는 공립:</strong> 임용고시 선발 우수 교사진 & 연중 안심 돌봄운영
-                  </p>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-[10px]">
-                    2
-                  </div>
-                  <p className="leading-relaxed">
-                    <strong className="text-slate-900 font-semibold">놀이하며 배우는 교육과정:</strong> 다양한 체험 & 체육·코딩·방송댄스 & 글로벌 교육
-                  </p>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-[10px]">
-                    3
-                  </div>
-                  <p className="leading-relaxed">
-                    <strong className="text-slate-900 font-semibold">교육비 부담 ZERO:</strong> 학부모 부담금 일체 없음 & 2대 통학차량 무료 운행
-                  </p>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-[10px]">
-                    4
-                  </div>
-                  <p className="leading-relaxed">
-                    <strong className="text-slate-900 font-semibold">안전·최첨단 교육환경:</strong> 보건교사 상주 & 영양사 직영 급식 & 2026 환경개선 선정
-                  </p>
-                </div>
-              </div>
-
-              {/* Quick Contact Footer */}
-              <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-700">
-                  입학 및 교육상담 문의
+                <span className="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                  공식 홈페이지
                 </span>
+              </div>
+
+              {/* Core summary list */}
+              <div className="space-y-3.5">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-bold text-slate-900">내실 있는 공교육 과정</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">
+                      국공립 유아학비 지원 및 풍성한 체험·특색놀이 교육환경
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-bold text-slate-900">정규 교사진 & 보건교사 상주</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">
+                      국가 임용고시 합격 정규 교사진 및 간호사 면허 정규 보건교사 1:1 케어
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <CheckCircle2 className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-bold text-slate-900">영남대 숲놀이 & 3층 미래교실</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">
+                      사계절 숲체험 활동, 코딩로봇, 크로마키 가상놀이, 전통 다도 및 방송댄스
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Quick Call */}
+              <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                <span className="text-slate-500">교무실 입학상담</span>
                 <a
                   href={`tel:${siteInfo.phone}`}
-                  className="text-xs font-extrabold text-blue-700 hover:text-blue-900 font-mono"
+                  className="font-bold text-blue-700 hover:text-blue-900 font-mono"
                 >
                   {siteInfo.phone} &rarr;
                 </a>

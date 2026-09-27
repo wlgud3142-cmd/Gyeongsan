@@ -266,7 +266,7 @@ Sitemap: ${formData.siteUrl}/sitemap.xml`;
                 <div className="aspect-[16/9] bg-gradient-to-br from-blue-900 to-indigo-950 p-4 flex flex-col justify-between text-white relative">
                   <div className="flex justify-between items-center text-[10px] text-blue-200">
                     <span>경산유치원 공식</span>
-                    <span>2026 원아모집</span>
+                    <span>2027 원아모집</span>
                   </div>
                   <div className="font-bold text-sm leading-snug">
                     성암산 2,000평 자연 숲놀이터<br />& 정통 몬테소리 교구 교육

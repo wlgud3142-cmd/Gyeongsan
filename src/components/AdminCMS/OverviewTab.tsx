@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { useKindergarten } from '../../context/KindergartenContext';
 import {
-  Users,
-  Sparkles,
   Building2,
+  Camera,
+  FileEdit,
+  Palette,
+  Search,
   CheckCircle2,
-  Clock,
-  ArrowUpRight,
-  GraduationCap,
   ShieldCheck,
-  Lock,
   KeyRound,
   ExternalLink,
   Copy,
+  MapPin,
+  Phone,
+  Video,
 } from 'lucide-react';
 
 export const OverviewTab: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChange }) => {
   const {
-    applications,
     siteInfo,
-    updateApplicationStatus,
+    gallery,
     adminEmail,
     updateAdminPassword,
     setCurrentMode,
@@ -28,9 +28,6 @@ export const OverviewTab: React.FC<{ onTabChange: (tab: string) => void }> = ({ 
   const [newPassword, setNewPassword] = useState('');
   const [passwordFeedback, setPasswordFeedback] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
-
-  const pendingApps = applications.filter((a) => a.status === '접수완료' || a.status === '상담예정');
-  const confirmedApps = applications.filter((a) => a.status === '등록확정');
 
   const handlePasswordChange = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,323 +55,277 @@ export const OverviewTab: React.FC<{ onTabChange: (tab: string) => void }> = ({ 
 
   return (
     <div className="space-y-8">
-      {/* Top Welcome & KPI Cards */}
+      {/* Top Welcome Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
           <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-            예비학부모 홍보 및 원아모집 대시보드
+            경산유치원 공식 웹사이트 관리
           </span>
           <h2 className="text-2xl font-bold text-slate-900 mt-1">
-            {siteInfo.name} 2026 신입원아 모집 현황
+            {siteInfo.name} 사이트 운영 개요
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            예비학부모님들의 실시간 입학상담 및 원서 접수 현황을 확인하고 관리할 수 있습니다.
+            유치원 소개, 특색교육, 포토 갤러리 및 디자인 테마를 손쉽게 관리할 수 있습니다.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => onTabChange('admissions')}
+            onClick={() => onTabChange('gallery')}
             className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors"
           >
-            <Users className="w-3.5 h-3.5" />
-            <span>원서 관리함</span>
+            <Camera className="w-3.5 h-3.5" />
+            <span>포토 갤러리 관리</span>
           </button>
           <button
             onClick={() => onTabChange('content')}
-            className="px-3 py-2 text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className="px-3 py-2 text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5"
           >
-            특장점·문구 편집
+            <FileEdit className="w-3.5 h-3.5" />
+            <span>소개·특색교육 편집</span>
           </button>
         </div>
       </div>
 
-      {/* 4 Metric Cards */}
+      {/* Website Policy Notice */}
+      <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900 flex items-start gap-3">
+        <Building2 className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" />
+        <div className="space-y-0.5">
+          <p className="font-bold">웹사이트 운영 방침 안내</p>
+          <p className="text-blue-800 leading-relaxed">
+            본 사이트는 경산유치원 공식 소개 및 교육활동 안내 홈페이지입니다. 홈페이지를 통해 유치원의 특색놀이, 원 환경 둘러보기, 활동 포토갤러리 사진 등을 자유롭게 안내하고 관리하실 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      {/* 4 Status Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">총 입학상담 신청</span>
+            <span className="text-xs font-semibold text-slate-500">설립 유형 및 규모</span>
             <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
-              <Users className="w-4 h-4" />
-            </div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-900 tabular-nums">
-              {applications.length}
-              <span className="text-xs font-normal text-slate-400 ml-1">건</span>
-            </div>
-            <div className="text-xs text-amber-600 font-medium mt-1 flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              <span>미처리/상담예정 {pendingApps.length}건</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">등록 확정 원아</span>
-            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-900 tabular-nums">
-              {confirmedApps.length}
-              <span className="text-xs font-normal text-slate-400 ml-1">명</span>
-            </div>
-            <div className="text-xs text-emerald-600 font-medium mt-1">
-              신입생 모집 정원 순항 중
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">2026학년도 총 정원</span>
-            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center">
-              <GraduationCap className="w-4 h-4" />
-            </div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-900 tabular-nums">
-              120
-              <span className="text-xs font-normal text-slate-400 ml-1">명</span>
-            </div>
-            <div className="text-xs text-indigo-600 font-medium mt-1">
-              만 3~5세 6학급 편성
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">설립 유형</span>
-            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
               <Building2 className="w-4 h-4" />
             </div>
           </div>
           <div>
             <div className="text-xl font-bold text-slate-900">
-              공립 단설
+              공립 단설 유치원
             </div>
-            <div className="text-xs text-emerald-600 font-medium mt-1">
-              학부모 부담금 0원 (전액 무료)
+            <div className="text-xs text-blue-700 font-semibold mt-1">
+              총 6학급 · 정원 120명 (만 3~5세)
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Recent Admissions Applications Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">유치원 소재지</span>
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <MapPin className="w-4 h-4" />
+            </div>
+          </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900">
-              최근 신입원아 입학상담 신청 내역
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              학부모님이 온라인 폼으로 제출한 실시간 상담 신청 목록입니다.
-            </p>
+            <div className="text-sm font-bold text-slate-900 truncate" title={siteInfo.address}>
+              {siteInfo.address}
+            </div>
+            <div className="text-xs text-slate-500 font-medium mt-1">
+              영남대학교 테크노파크 주차 가능
+            </div>
           </div>
-          <button
-            onClick={() => onTabChange('admissions')}
-            className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1"
-          >
-            <span>전체 신청 관리 ({applications.length})</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase font-semibold">
-              <tr>
-                <th className="py-3 px-4">접수번호</th>
-                <th className="py-3 px-4">원아명/성별</th>
-                <th className="py-3 px-4">대상 연령반</th>
-                <th className="py-3 px-4">보호자/연락처</th>
-                <th className="py-3 px-4">희망 투어일시</th>
-                <th className="py-3 px-4">상태 처리</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
-              {applications.slice(0, 5).map((app) => (
-                <tr key={app.id} className="hover:bg-slate-50/70">
-                  <td className="py-3.5 px-4 font-mono font-medium text-slate-500">{app.id}</td>
-                  <td className="py-3.5 px-4 font-bold text-slate-900">
-                    {app.childName} ({app.childGender})
-                  </td>
-                  <td className="py-3.5 px-4">{app.ageGroup}</td>
-                  <td className="py-3.5 px-4">
-                    <span className="font-medium text-slate-900">{app.parentName}</span>
-                    <span className="text-slate-400 block font-mono text-[11px]">{app.phone}</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-600">{app.preferredTourDate || '-'}</td>
-                  <td className="py-3.5 px-4">
-                    <select
-                      value={app.status}
-                      onChange={(e) => updateApplicationStatus(app.id, e.target.value as any)}
-                      className={`text-xs font-semibold px-2 py-1 rounded-md border ${
-                        app.status === '등록확정'
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                          : app.status === '상담예정'
-                          ? 'bg-blue-50 text-blue-700 border-blue-200'
-                          : app.status === '면담완료'
-                          ? 'bg-purple-50 text-purple-700 border-purple-200'
-                          : 'bg-amber-50 text-amber-700 border-amber-200'
-                      }`}
-                    >
-                      <option value="접수완료">접수완료</option>
-                      <option value="상담예정">상담예정</option>
-                      <option value="면담완료">면담완료</option>
-                      <option value="등록확정">등록확정</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">포토 갤러리 등록 사진</span>
+            <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center">
+              <Camera className="w-4 h-4" />
+            </div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-slate-900 tabular-nums">
+              {gallery.length}
+              <span className="text-xs font-normal text-slate-400 ml-1">장</span>
+            </div>
+            <div className="text-xs text-purple-700 font-medium mt-1">
+              실시간 홈페이지 갤러리 노출 중
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">대표 문의 및 상담</span>
+            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+              <Phone className="w-4 h-4" />
+            </div>
+          </div>
+          <div>
+            <div className="text-base font-bold text-slate-900 font-mono">
+              {siteInfo.phone}
+            </div>
+            <div className="text-xs text-slate-500 font-medium mt-1">
+              행정실: 053-818-8552
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Admin Security & Share Protection Card */}
-      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800">
-        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-6 border-b border-slate-800">
-          <div className="space-y-1 max-w-2xl">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
-                관리자 모드 완벽 분리 및 보안 보호 작동 중
-              </span>
+      {/* Quick Action Navigation Grid */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div>
+          <h3 className="text-base font-bold text-slate-900">
+            빠른 콘텐츠 관리 및 설정 바로가기
+          </h3>
+          <p className="text-xs text-slate-500 mt-0.5">
+            원하시는 메뉴를 클릭하여 홈페이지 내용을 즉시 변경하실 수 있습니다.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <button
+            onClick={() => onTabChange('gallery')}
+            className="p-5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-white hover:border-blue-400 hover:shadow-sm transition-all text-left group flex flex-col justify-between space-y-3"
+          >
+            <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <Camera className="w-5 h-5" />
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-              <ShieldCheck className="w-6 h-6 text-blue-400" />
-              <span>공유 링크 및 나만의 관리자 모드 안내</span>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-700">포토 갤러리 관리</h4>
+              <p className="text-xs text-slate-500 mt-1">아이들 활동 사진 업로드, 제목/설명/날짜 수정 및 삭제</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => onTabChange('content')}
+            className="p-5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-white hover:border-blue-400 hover:shadow-sm transition-all text-left group flex flex-col justify-between space-y-3"
+          >
+            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <FileEdit className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-700">소개·특색교육 편집</h4>
+              <p className="text-xs text-slate-500 mt-1">자·신·감 놀이, 공모사업, 보건/급식, 유튜브 둘러보기 링크 수정</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => onTabChange('themes')}
+            className="p-5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-white hover:border-blue-400 hover:shadow-sm transition-all text-left group flex flex-col justify-between space-y-3"
+          >
+            <div className="w-10 h-10 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <Palette className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-700">디자인 테마 / 폰트</h4>
+              <p className="text-xs text-slate-500 mt-1">홈페이지 포인트 색상, 글꼴 서체, 둥글기 스타일 커스텀</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => onTabChange('seo')}
+            className="p-5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-white hover:border-blue-400 hover:shadow-sm transition-all text-left group flex flex-col justify-between space-y-3"
+          >
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <Search className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-700">SEO & 포털 검색최적화</h4>
+              <p className="text-xs text-slate-500 mt-1">네이버·다음 검색 키워드 및 카카오톡 공유 카드 문구 설정</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Share Link & Security Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Parent Share Link */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <Copy className="w-4 h-4 text-blue-600" />
+              <span>학부모 공유용 공식 홈페이지 주소</span>
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed pt-1">
-              링크를 예비학부모님이나 외부에 공유할 때 <strong>상단 헤더의 관리자 CMS 버튼이 100% 숨김 처리</strong>되어
-              일반 방문자는 관리자 화면이나 원서함에 절대 접근할 수 없습니다. 오직 비밀번호를 아는 관리자만 진입할 수 있습니다.
+            <p className="text-xs text-slate-500 mt-1">
+              가정통신문, 홍보자료 또는 SNS에 첨부하실 수 있는 공식 홈페이지 접속 링크입니다.
             </p>
           </div>
 
-          <button
-            onClick={copyParentShareLink}
-            className="self-start px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-2 shrink-0"
-          >
-            {copiedLink ? <CheckCircle2 className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
-            <span>{copiedLink ? '공유 링크 복사 완료!' : '학부모 공유용 링크 복사'}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              readOnly
+              value={typeof window !== 'undefined' ? window.location.origin + window.location.pathname : ''}
+              className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-700 select-all"
+            />
+            <button
+              onClick={copyParentShareLink}
+              className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 shrink-0 shadow-sm"
+            >
+              {copiedLink ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              <span>{copiedLink ? '복사완료!' : '링크 복사'}</span>
+            </button>
+          </div>
+
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>실시간 홈페이지 확인하기</span>
+            <button
+              onClick={() => setCurrentMode('website')}
+              className="text-blue-700 font-semibold hover:underline flex items-center gap-1"
+            >
+              <span>홈페이지로 이동</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-6">
-          {/* Box 1: 3 Secret Ways to Access Admin Mode */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-            <div className="flex items-center gap-2 text-blue-300 font-bold text-sm">
-              <Lock className="w-4 h-4" />
-              <h4>나만 관리자 모드로 들어가는 3가지 방법</h4>
-            </div>
-            <ul className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
-              <li className="flex items-start gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/50">
-                <span className="w-5 h-5 rounded-full bg-blue-600/40 text-blue-300 flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
-                  1
-                </span>
-                <div>
-                  <strong className="text-white">웹사이트 맨 아래 푸터 클릭:</strong>
-                  <p className="text-slate-400 text-[11px] mt-0.5">
-                    홈페이지 최하단 우측의 <span className="text-slate-200 underline">🔒 원무 관리자</span>를 누르면 비밀번호 입력창이 뜹니다.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/50">
-                <span className="w-5 h-5 rounded-full bg-blue-600/40 text-blue-300 flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
-                  2
-                </span>
-                <div>
-                  <strong className="text-white">주소창 파라미터 입력:</strong>
-                  <p className="text-slate-400 text-[11px] mt-0.5">
-                    공유 주소 뒤에 <code className="bg-slate-900 text-blue-300 px-1 py-0.5 rounded font-mono">?admin=true</code>를 붙여서 열면 바로 관리자 인증 창이 뜹니다.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/50">
-                <span className="w-5 h-5 rounded-full bg-blue-600/40 text-blue-300 flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
-                  3
-                </span>
-                <div>
-                  <strong className="text-white">키보드 단축키:</strong>
-                  <p className="text-slate-400 text-[11px] mt-0.5">
-                    홈페이지 어디서나 키보드 <kbd className="bg-slate-900 border border-slate-700 text-slate-200 px-1.5 py-0.5 rounded font-mono text-[10px]">Alt + A</kbd> (또는 Ctrl+Shift+A)를 누르면 관리자 모드로 전환됩니다.
-                  </p>
-                </div>
-              </li>
-            </ul>
+        {/* Admin Password Change Form */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <KeyRound className="w-4 h-4 text-amber-600" />
+              <span>관리자 계정 보안 및 비밀번호 변경</span>
+            </h3>
+            <p className="text-xs text-slate-500 mt-1">
+              현재 관리자 계정: <span className="font-mono font-semibold text-slate-700">{adminEmail}</span>
+            </p>
           </div>
 
-          {/* Box 2: Password Management Form */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+          {passwordFeedback && (
+            <div className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
+              passwordFeedback.includes('성공')
+                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{passwordFeedback}</span>
+            </div>
+          )}
+
+          <form onSubmit={handlePasswordChange} className="space-y-3">
             <div>
-              <div className="flex items-center justify-between text-blue-300 font-bold text-sm mb-3">
-                <div className="flex items-center gap-2">
-                  <KeyRound className="w-4 h-4" />
-                  <h4>관리자 비밀번호 설정</h4>
-                </div>
-                <span className="text-[11px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
-                  {adminEmail}
-                </span>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                새 비밀번호 설정 (최소 4자리)
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="새로운 비밀번호 입력"
+                  className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors shrink-0 shadow-sm"
+                >
+                  비밀번호 변경
+                </button>
               </div>
-              <p className="text-xs text-slate-300 mb-4 leading-relaxed">
-                나만 기억할 수 있는 관리자 비밀번호를 설정하세요. 기본 비밀번호는 <code className="text-blue-300 font-mono font-bold bg-slate-800 px-1 rounded">1234</code> 입니다.
-              </p>
-
-              <form onSubmit={handlePasswordChange} className="space-y-3">
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">
-                    새 관리자 비밀번호 (4자리 이상)
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="새 비밀번호 입력"
-                      className="flex-1 px-3.5 py-2 bg-slate-950/80 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    <button
-                      type="submit"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-colors whitespace-nowrap shadow-sm"
-                    >
-                      변경 저장
-                    </button>
-                  </div>
-                </div>
-
-                {passwordFeedback && (
-                  <div className={`p-2.5 rounded-xl text-xs flex items-center gap-1.5 animate-in fade-in ${
-                    passwordFeedback.includes('성공')
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                      : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                  }`}>
-                    {passwordFeedback.includes('성공') ? (
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
-                    ) : (
-                      <Lock className="w-3.5 h-3.5 shrink-0 text-rose-400" />
-                    )}
-                    <span>{passwordFeedback}</span>
-                  </div>
-                )}
-              </form>
             </div>
-
-            <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-              <span>기기 전환 시 이 비밀번호로 로그인하면 됩니다.</span>
-              <button
-                type="button"
-                onClick={() => setCurrentMode('website')}
-                className="text-blue-400 hover:text-blue-300 font-semibold"
-              >
-                홈페이지 확인하기 →
-              </button>
-            </div>
-          </div>
+            <p className="text-[11px] text-slate-400">
+              * 변경된 비밀번호는 브라우저에 안전하게 저장되며 다음 로그인 시부터 적용됩니다.
+            </p>
+          </form>
         </div>
       </div>
     </div>

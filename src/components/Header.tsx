@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useKindergarten } from '../context/KindergartenContext';
 import { getAccentStyles } from '../utils/themeHelper';
-import { Sparkles, Menu, X, Settings, ArrowUpRight, Phone } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Phone } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const { siteInfo, themeConfig, currentMode, setCurrentMode, setIsAiModalOpen, isAdminAuthenticated } = useKindergarten();
+  const { siteInfo, themeConfig, currentMode, setCurrentMode, isAdminAuthenticated } = useKindergarten();
   const accent = getAccentStyles(themeConfig.accentColor);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -14,9 +14,10 @@ export const Header: React.FC = () => {
     { label: '유치원소개', href: '#about' },
     { label: '교육과정·일과', href: '#curriculum' },
     { label: '통학버스노선', href: '#bus-routes' },
-    { label: '급식·보건복지', href: '#life-health' },
-    { label: '시설갤러리', href: '#gallery' },
-    { label: '2026 입학안내', href: '#admissions' },
+    { label: '보건·안심케어', href: '#health' },
+    { label: '영양·직영급식', href: '#meals' },
+    { label: '포토갤러리', href: '#gallery' },
+    { label: '오시는길', href: '#location' },
   ];
 
   return (
@@ -27,7 +28,6 @@ export const Header: React.FC = () => {
           <div className="flex items-center gap-2 truncate">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
             <span className="font-semibold text-slate-200 truncate">{siteInfo.enrollmentStatus}</span>
-            <span className="hidden md:inline text-blue-300 font-bold ml-1">· 학부모 부담금 0원</span>
           </div>
           <div className="hidden sm:flex items-center gap-4 text-slate-300 text-xs shrink-0">
             <a href={`tel:${siteInfo.phone}`} className="hover:text-white font-mono font-bold flex items-center gap-1">
@@ -35,14 +35,14 @@ export const Header: React.FC = () => {
               <span>상담전화: {siteInfo.phone}</span>
             </a>
             <span aria-hidden="true">·</span>
-            <span>경산시 사동 백양로 35</span>
+            <span>경산시 삼풍로 25</span>
           </div>
         </div>
       </div>
 
-      {/* Main 3-Zone Navigation Header */}
+      {/* Main Navigation Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-        {/* Zone 1: Single Brand element */}
+        {/* Brand */}
         <a href="#hero" className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-lg p-1">
           <div className={`w-10 h-10 rounded-xl ${accent.bgPrimary} text-white flex items-center justify-center font-extrabold text-lg shadow-sm transition-transform group-hover:scale-105`}>
             경
@@ -62,8 +62,8 @@ export const Header: React.FC = () => {
           </div>
         </a>
 
-        {/* Zone 2: Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 text-[14px] font-semibold text-slate-600">
+        {/* Navigation Links */}
+        <nav className="hidden xl:flex items-center gap-5 text-[13px] font-semibold text-slate-600">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -75,22 +75,22 @@ export const Header: React.FC = () => {
           ))}
         </nav>
 
-        {/* Zone 3: Primary Actions */}
+        {/* Primary Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={() => setIsAiModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200"
-            title="24시간 경산유치원 AI 입학상담"
+          <a
+            href={`tel:${siteInfo.phone}`}
+            className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200"
+            title="원무실 직통 전화 상담"
           >
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-            <span>AI 입학상담</span>
-          </button>
+            <Phone className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="font-mono">{siteInfo.phone}</span>
+          </a>
 
           <a
-            href="#admissions"
+            href="#location"
             className={`px-4 py-2 text-xs font-bold text-white ${accent.bgPrimary} ${accent.bgPrimaryHover} rounded-lg shadow-sm transition-colors whitespace-nowrap flex items-center gap-1.5`}
           >
-            <span>입학원서 접수</span>
+            <span>오시는 길</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
 
@@ -99,31 +99,29 @@ export const Header: React.FC = () => {
               onClick={() => setCurrentMode(currentMode === 'admin' ? 'website' : 'admin')}
               className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-all flex items-center gap-1.5 shadow-sm ${
                 currentMode === 'admin'
-                  ? 'bg-amber-500 text-white border-amber-600'
-                  : 'bg-slate-900 text-white hover:bg-slate-800 border-slate-900'
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100'
               }`}
-              title="관리자 CMS 대시보드"
+              title="원무 관리자 CMS 대시보드"
             >
-              <Settings className="w-3.5 h-3.5 text-blue-400" />
-              <span>{currentMode === 'admin' ? '홈페이지 보기' : '관리자 CMS'}</span>
+              <span>관리자 CMS</span>
             </button>
           )}
         </div>
 
-        {/* Mobile menu hamburger */}
-        <div className="flex items-center gap-2 lg:hidden">
-          {isAdminAuthenticated && (
-            <button
-              onClick={() => setCurrentMode(currentMode === 'admin' ? 'website' : 'admin')}
-              className="p-2 text-xs font-medium rounded-lg border border-slate-900 bg-slate-900 text-white"
-              title="관리자 CMS"
-            >
-              <Settings className="w-4 h-4 text-blue-400" />
-            </button>
-          )}
+        {/* Mobile Hamburger Button */}
+        <div className="flex items-center gap-2 xl:hidden">
+          <a
+            href={`tel:${siteInfo.phone}`}
+            className="p-2 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1"
+            title="전화걸기"
+          >
+            <Phone className="w-4 h-4" />
+          </a>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"
+            className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg focus:outline-none"
             aria-label="메뉴 열기"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -131,38 +129,38 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 shadow-xl">
-          <nav className="flex flex-col gap-2">
+        <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-150 shadow-lg">
+          <nav className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-2.5 px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 rounded-lg"
+                className="px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-700 transition-colors flex items-center justify-between"
               >
-                {link.label}
+                <span>{link.label}</span>
+                <span className="text-slate-400 text-xs">&rarr;</span>
               </a>
             ))}
           </nav>
-          <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setIsAiModalOpen(true);
-              }}
-              className="w-full py-2.5 px-4 text-xs font-semibold text-slate-800 bg-slate-100 rounded-lg flex items-center justify-center gap-2"
-            >
-              <Sparkles className="w-4 h-4 text-blue-600" />
-              <span>24시간 AI 입학상담 챗봇</span>
-            </button>
+
+          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
             <a
-              href="#admissions"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`w-full py-2.5 px-4 text-xs font-bold text-white ${accent.bgPrimary} rounded-lg text-center`}
+              href={`tel:${siteInfo.phone}`}
+              className="w-full py-3 bg-emerald-600 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-sm"
             >
-              2026 입학상담 및 원서 접수
+              <Phone className="w-4 h-4" />
+              <span>교무실 전화 문의 ({siteInfo.phone})</span>
+            </a>
+
+            <a
+              href="#location"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`w-full py-3 text-center rounded-xl text-xs font-bold text-white ${accent.bgPrimary} shadow-sm`}
+            >
+              오시는 길 & 위치 안내
             </a>
           </div>
         </div>

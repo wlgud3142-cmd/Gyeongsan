@@ -1,62 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useKindergarten } from '../context/KindergartenContext';
-import { Sparkles, Phone, MessageCircle, ArrowUp } from 'lucide-react';
+import { Phone, ArrowUp } from 'lucide-react';
 
 export const FloatingWidgets: React.FC = () => {
-  const { siteInfo, setIsAiModalOpen } = useKindergarten();
-  const [showTooltip, setShowTooltip] = useState(true);
+  const { siteInfo } = useKindergarten();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3 pointer-events-none">
-      {/* Tooltip bubble */}
-      {showTooltip && (
-        <div className="pointer-events-auto bg-slate-900 text-white text-xs py-2 px-3.5 rounded-xl shadow-xl flex items-center gap-2 max-w-xs animate-bounce duration-1000 border border-slate-700">
-          <Sparkles className="w-4 h-4 text-blue-400 shrink-0" />
-          <span>입학 및 숲체험 궁금증, AI 상담사에게 물어보세요!</span>
-          <button
-            onClick={() => setShowTooltip(false)}
-            className="text-slate-400 hover:text-white ml-1 text-xs"
-            aria-label="닫기"
-          >
-            &times;
-          </button>
+    <div className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2.5 pointer-events-auto">
+      {/* Scroll Top Button */}
+      <button
+        onClick={scrollToTop}
+        className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-slate-700 shadow-lg border border-slate-200/90 flex items-center justify-center hover:bg-slate-50 transition-all hover:scale-105"
+        title="맨 위로 이동"
+        aria-label="맨 위로 이동"
+      >
+        <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
+      </button>
+
+      {/* Prominent Call Button with Explicit Text: "입학상담 문의" */}
+      <a
+        href={`tel:${siteInfo.phone}`}
+        className="px-4 py-3 sm:px-5 sm:py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 border border-emerald-500 font-extrabold text-xs sm:text-sm group"
+        title={`입학상담 직통전화 연결 (${siteInfo.phone})`}
+        aria-label="입학상담 문의"
+      >
+        <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+          <Phone className="w-4 h-4 text-white animate-pulse" />
         </div>
-      )}
-
-      <div className="flex items-center gap-2.5 pointer-events-auto">
-        {/* Scroll Top Button */}
-        <button
-          onClick={scrollToTop}
-          className="w-10 h-10 rounded-full bg-white text-slate-700 shadow-md border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors"
-          title="맨 위로"
-          aria-label="맨 위로 이동"
-        >
-          <ArrowUp className="w-4 h-4" />
-        </button>
-
-        {/* Quick Phone Call */}
-        <a
-          href={`tel:${siteInfo.phone}`}
-          className="w-11 h-11 rounded-full bg-emerald-600 text-white shadow-lg flex items-center justify-center hover:bg-emerald-700 transition-transform hover:scale-105"
-          title="원무실 전화 바로 연결"
-          aria-label="원무실 전화 연결"
-        >
-          <Phone className="w-5 h-5" />
-        </a>
-
-        {/* AI Counselor Primary Button */}
-        <button
-          onClick={() => setIsAiModalOpen(true)}
-          className="px-4 py-3 rounded-full bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 text-white shadow-xl flex items-center gap-2 hover:opacity-95 transition-transform hover:scale-105 font-bold text-xs"
-        >
-          <Sparkles className="w-4 h-4 text-amber-300" />
-          <span>AI 24시 입학상담</span>
-        </button>
-      </div>
+        <span className="tracking-tight">입학상담 문의</span>
+        <span className="hidden sm:inline-block text-[11px] font-mono font-semibold bg-emerald-800/60 px-2 py-0.5 rounded-full text-emerald-100">
+          {siteInfo.phone}
+        </span>
+      </a>
     </div>
   );
 };

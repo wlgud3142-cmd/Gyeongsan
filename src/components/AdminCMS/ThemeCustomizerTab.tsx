@@ -190,7 +190,7 @@ export const ThemeCustomizerTab: React.FC = () => {
             </div>
             <div>
               <div className="text-base font-bold text-slate-900">{siteInfo.name}</div>
-              <div className="text-xs text-slate-500">2026학년도 신입원아 모집 및 원 투어</div>
+              <div className="text-xs text-slate-500">2027학년도 신입원아 모집 및 원 투어</div>
             </div>
           </div>
 

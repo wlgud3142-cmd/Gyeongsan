@@ -8,6 +8,11 @@ import {
   GalleryPhoto,
   SeoConfig,
   StrengthItem,
+  VisionInfo,
+  HealthInfo,
+  NutritionInfo,
+  AdmissionGuide,
+  ClassInfo,
 } from '../types';
 import {
   initialSiteInfo,
@@ -18,6 +23,11 @@ import {
   initialApplications,
   initialGallery,
   initialSeoConfig,
+  initialVisions,
+  initialClassStatus,
+  initialHealthInfo,
+  initialNutritionInfo,
+  initialAdmissionGuide,
 } from '../data/initialData';
 
 interface KindergartenContextType {
@@ -27,6 +37,16 @@ interface KindergartenContextType {
   updateThemeConfig: (config: Partial<ThemeConfig>) => void;
   strengths: StrengthItem[];
   updateStrength: (id: string, updated: Partial<StrengthItem>) => void;
+  visions: VisionInfo;
+  updateVisions: (v: Partial<VisionInfo>) => void;
+  classStatus: ClassInfo[];
+  updateClassStatus: (cs: ClassInfo[]) => void;
+  healthInfo: HealthInfo;
+  updateHealthInfo: (h: Partial<HealthInfo>) => void;
+  nutritionInfo: NutritionInfo;
+  updateNutritionInfo: (n: Partial<NutritionInfo>) => void;
+  admissionGuide: AdmissionGuide;
+  updateAdmissionGuide: (a: Partial<AdmissionGuide>) => void;
   notices: Notice[];
   addNotice: (notice: Omit<Notice, 'id' | 'views'>) => void;
   updateNotice: (id: string, updated: Partial<Notice>) => void;
@@ -41,6 +61,7 @@ interface KindergartenContextType {
   deleteApplication: (id: string) => void;
   gallery: GalleryPhoto[];
   addGalleryPhoto: (photo: Omit<GalleryPhoto, 'id'>) => void;
+  updateGalleryPhoto: (id: string, updated: Partial<GalleryPhoto>) => void;
   deleteGalleryPhoto: (id: string) => void;
   seoConfig: SeoConfig;
   updateSeoConfig: (seo: Partial<SeoConfig>) => void;
@@ -64,7 +85,7 @@ interface KindergartenContextType {
 
 const KindergartenContext = createContext<KindergartenContextType | undefined>(undefined);
 
-const CURRENT_DATA_VERSION = '2026_poster_accurate_v5';
+const CURRENT_DATA_VERSION = '2027_kindergarten_v5';
 
 export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [siteInfo, setSiteInfo] = useState<SiteInfo>(() => {
@@ -72,7 +93,7 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const v = localStorage.getItem('gs_data_version');
       if (v !== CURRENT_DATA_VERSION) return initialSiteInfo;
       const saved = localStorage.getItem('gs_site_info');
-      return saved ? JSON.parse(saved) : initialSiteInfo;
+      return saved ? { ...initialSiteInfo, ...JSON.parse(saved) } : initialSiteInfo;
     } catch {
       return initialSiteInfo;
     }
@@ -100,6 +121,61 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
       }
     } catch {}
     return initialStrengths;
+  });
+
+  const [visions, setVisions] = useState<VisionInfo>(() => {
+    try {
+      const v = localStorage.getItem('gs_data_version');
+      if (v !== CURRENT_DATA_VERSION) return initialVisions;
+      const saved = localStorage.getItem('gs_visions');
+      return saved ? JSON.parse(saved) : initialVisions;
+    } catch {
+      return initialVisions;
+    }
+  });
+
+  const [classStatus, setClassStatus] = useState<ClassInfo[]>(() => {
+    try {
+      const v = localStorage.getItem('gs_data_version');
+      if (v !== CURRENT_DATA_VERSION) return initialClassStatus;
+      const saved = localStorage.getItem('gs_class_status');
+      return saved ? JSON.parse(saved) : initialClassStatus;
+    } catch {
+      return initialClassStatus;
+    }
+  });
+
+  const [healthInfo, setHealthInfo] = useState<HealthInfo>(() => {
+    try {
+      const v = localStorage.getItem('gs_data_version');
+      if (v !== CURRENT_DATA_VERSION) return initialHealthInfo;
+      const saved = localStorage.getItem('gs_health_info');
+      return saved ? JSON.parse(saved) : initialHealthInfo;
+    } catch {
+      return initialHealthInfo;
+    }
+  });
+
+  const [nutritionInfo, setNutritionInfo] = useState<NutritionInfo>(() => {
+    try {
+      const v = localStorage.getItem('gs_data_version');
+      if (v !== CURRENT_DATA_VERSION) return initialNutritionInfo;
+      const saved = localStorage.getItem('gs_nutrition_info');
+      return saved ? JSON.parse(saved) : initialNutritionInfo;
+    } catch {
+      return initialNutritionInfo;
+    }
+  });
+
+  const [admissionGuide, setAdmissionGuide] = useState<AdmissionGuide>(() => {
+    try {
+      const v = localStorage.getItem('gs_data_version');
+      if (v !== CURRENT_DATA_VERSION) return initialAdmissionGuide;
+      const saved = localStorage.getItem('gs_admission_guide');
+      return saved ? JSON.parse(saved) : initialAdmissionGuide;
+    } catch {
+      return initialAdmissionGuide;
+    }
   });
 
   const [notices, setNotices] = useState<Notice[]>(() => {
@@ -228,11 +304,57 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
     localStorage.setItem('gs_seo_config', JSON.stringify(seoConfig));
   }, [seoConfig]);
 
+  useEffect(() => {
+    localStorage.setItem('gs_data_version', CURRENT_DATA_VERSION);
+    localStorage.setItem('gs_visions', JSON.stringify(visions));
+  }, [visions]);
+
+  useEffect(() => {
+    localStorage.setItem('gs_class_status', JSON.stringify(classStatus));
+  }, [classStatus]);
+
+  useEffect(() => {
+    localStorage.setItem('gs_health_info', JSON.stringify(healthInfo));
+  }, [healthInfo]);
+
+  useEffect(() => {
+    localStorage.setItem('gs_nutrition_info', JSON.stringify(nutritionInfo));
+  }, [nutritionInfo]);
+
+  useEffect(() => {
+    localStorage.setItem('gs_admission_guide', JSON.stringify(admissionGuide));
+  }, [admissionGuide]);
+
   const triggerSaveFeedback = (msg = '변경사항이 성공적으로 저장되었습니다.') => {
     setSaveFeedback(msg);
     setTimeout(() => {
       setSaveFeedback(null);
     }, 2500);
+  };
+
+  const updateVisions = (v: Partial<VisionInfo>) => {
+    setVisions((prev) => ({ ...prev, ...v }));
+    triggerSaveFeedback('교육 비전 및 원훈이 업데이트되었습니다.');
+  };
+
+  const updateClassStatus = (cs: ClassInfo[]) => {
+    setClassStatus(cs);
+    triggerSaveFeedback('학급 및 원아 정원 정보가 수정되었습니다.');
+  };
+
+  const updateHealthInfo = (h: Partial<HealthInfo>) => {
+    setHealthInfo((prev) => ({ ...prev, ...h }));
+    triggerSaveFeedback('보건 안심 케어 정보가 수정되었습니다.');
+  };
+
+  const updateNutritionInfo = (n: Partial<NutritionInfo>) => {
+    setNutritionInfo((prev) => ({ ...prev, ...n }));
+    triggerSaveFeedback('영양 직영 급식 정보가 수정되었습니다.');
+  };
+
+  const updateAdmissionGuide = (a: Partial<AdmissionGuide>) => {
+    setAdmissionGuide((prev) => ({ ...prev, ...a }));
+    triggerSaveFeedback('입학 모집 요강 정보가 수정되었습니다.');
   };
 
   const updateSiteInfo = (info: Partial<SiteInfo>) => {
@@ -331,6 +453,11 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
     triggerSaveFeedback('새 활동 사진이 등록되었습니다.');
   };
 
+  const updateGalleryPhoto = (id: string, updated: Partial<GalleryPhoto>) => {
+    setGallery((prev) => prev.map((g) => (g.id === id ? { ...g, ...updated } : g)));
+    triggerSaveFeedback('활동 사진 정보가 수정되었습니다.');
+  };
+
   const deleteGalleryPhoto = (id: string) => {
     setGallery((prev) => prev.filter((g) => g.id !== id));
     triggerSaveFeedback('활동 사진이 삭제되었습니다.');
@@ -345,6 +472,11 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setSiteInfo(initialSiteInfo);
     setThemeConfig(initialThemeConfig);
     setStrengths(initialStrengths);
+    setVisions(initialVisions);
+    setClassStatus(initialClassStatus);
+    setHealthInfo(initialHealthInfo);
+    setNutritionInfo(initialNutritionInfo);
+    setAdmissionGuide(initialAdmissionGuide);
     setNotices(initialNotices);
     setMeals(initialMeals);
     setApplications(initialApplications);
@@ -363,6 +495,16 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
         updateThemeConfig,
         strengths,
         updateStrength,
+        visions,
+        updateVisions,
+        classStatus,
+        updateClassStatus,
+        healthInfo,
+        updateHealthInfo,
+        nutritionInfo,
+        updateNutritionInfo,
+        admissionGuide,
+        updateAdmissionGuide,
         notices,
         addNotice,
         updateNotice,
@@ -377,6 +519,7 @@ export const KindergartenProvider: React.FC<{ children: React.ReactNode }> = ({ 
         deleteApplication,
         gallery,
         addGalleryPhoto,
+        updateGalleryPhoto,
         deleteGalleryPhoto,
         seoConfig,
         updateSeoConfig,

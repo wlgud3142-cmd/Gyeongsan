@@ -15,11 +15,11 @@ export const LocationSection: React.FC = () => {
             <span>공립 단설 경산유치원</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            경산시 사동 백양로 35 (사동초 인근)<br />
+            경산시 삼풍로 25<br />
             따뜻하고 밝은 배움터로 모십니다
           </h2>
           <p className="mt-3 text-base text-slate-600 leading-relaxed">
-            사동초등학교와 인접하여 유·초 이음교육이 원활하며, 대형 63인승과 중형 25인승 통학버스가
+            아이들의 안전하고 쾌적한 등하원을 위해 대형 63인승과 중형 25인승 통학버스가
             경산 전역(사동, 계양, 중산, 펜타힐즈, 신대, 압량, 대평, 정평, 백천, 옥산 등)을 안전하게 운행합니다.
           </p>
         </div>
@@ -66,10 +66,10 @@ export const LocationSection: React.FC = () => {
                 <p className="text-xs text-slate-500 mt-0.5">{siteInfo.addressDetail}</p>
                 <div className="mt-3 pt-3 border-t border-slate-100 flex justify-center gap-4 text-xs font-semibold text-blue-700">
                   <span className="flex items-center gap-1">
-                    <Navigation className="w-3.5 h-3.5" /> 사동초등학교 인근
+                    <Navigation className="w-3.5 h-3.5" /> 영남대 테크노파크 인근
                   </span>
                   <span className="flex items-center gap-1">
-                    <Car className="w-3.5 h-3.5" /> 원내 안심 주차장 완비
+                    <Car className="w-3.5 h-3.5" /> 테크노파크 주차 가능
                   </span>
                 </div>
               </div>
@@ -105,21 +105,21 @@ export const LocationSection: React.FC = () => {
                   <strong className="text-slate-900 font-semibold">전용 통학버스:</strong> 대형(63인승) 1대, 중형(25인승) 1대 총 2대 운행, 안전 동승보호자 필수 탑승 (사동, 계양, 중산, 펜타힐즈, 신대, 압량, 대평, 정평, 백천 등 5개 코스)
                 </p>
                 <p>
-                  <strong className="text-slate-900 font-semibold">자가용 방문:</strong> 경산 사동초등학교 맞은편 방향 진입, 원내 안전 지상 주차장 이용 가능
+                  <strong className="text-slate-900 font-semibold">자가용 방문:</strong> 영남대학교 테크노파크 주차장 이용 가능
                 </p>
               </div>
             </div>
 
             <div className="bg-slate-900 text-white p-5 rounded-2xl flex items-center justify-between text-xs">
               <div>
-                <div className="font-bold">입학 및 교육상담 직통</div>
+                <div className="font-bold">원무 및 교육상담 직통</div>
                 <div className="text-blue-300 font-mono text-sm mt-0.5">☎ 053-818-8551</div>
               </div>
               <a
-                href="#admissions"
+                href={`tel:${siteInfo.phone}`}
                 className="px-3.5 py-2 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors whitespace-nowrap"
               >
-                상담원서 접수
+                전화 연결하기
               </a>
             </div>
           </div>

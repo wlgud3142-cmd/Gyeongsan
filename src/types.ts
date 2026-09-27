@@ -75,6 +75,7 @@ export interface SiteInfo {
   accreditation: string;
   tuitionNotice: string; // "학부모 부담금 0원"
   directorName: string;
+  youtubeTourUrl?: string; // "유치원 환경 둘러보기 유튜브 영상 링크"
 }
 
 export interface StrengthItem {
@@ -131,11 +132,12 @@ export interface AdmissionApplication {
 export interface GalleryPhoto {
   id: string;
   title: string;
-  category: '자연생태숲놀이' | '미래교실코딩' | '특성화프로그램' | '원내문화행사';
+  category: string;
   date: string;
   description: string;
   colorGradient: string;
   caption: string;
+  imageUrl?: string;
 }
 
 export interface SeoConfig {
@@ -150,3 +152,44 @@ export interface SeoConfig {
   kakaoShareTitle: string;
   kakaoShareDesc: string;
 }
+
+export interface VisionInfo {
+  motto: string;
+  childImage: string;
+  teacherImage: string;
+  parentImage: string;
+  kindergartenImage: string;
+}
+
+export interface HealthInfo {
+  title: string;
+  badge: string;
+  nurseTitle: string;
+  description: string;
+  points: string[];
+  facilityLocation: string;
+  emergencyGuide: string;
+}
+
+export interface NutritionInfo {
+  title: string;
+  badge: string;
+  chefTitle: string;
+  description: string;
+  points: string[];
+  organicPartner: string;
+  dailySnackGuide: string;
+  allergenPolicy: string;
+}
+
+export interface AdmissionGuide {
+  year: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  quotaNotice: string;
+  feeNotice: string;
+  busNotice: string;
+  steps: { num: string; title: string; desc: string }[];
+}
+

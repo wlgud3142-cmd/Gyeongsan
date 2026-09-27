@@ -8,13 +8,12 @@ import { Strengths } from './components/Strengths';
 import { AboutSection } from './components/AboutSection';
 import { Curriculum } from './components/Curriculum';
 import { BusRouteSection } from './components/BusRouteSection';
-import { LifeHealthSection } from './components/LifeHealthSection';
+import { HealthSection } from './components/HealthSection';
+import { MealSection } from './components/MealSection';
 import { GallerySection } from './components/GallerySection';
-import { AdmissionsSection } from './components/AdmissionsSection';
 import { LocationSection } from './components/LocationSection';
 import { Footer } from './components/Footer';
 import { FloatingWidgets } from './components/FloatingWidgets';
-import { AiAdvisorModal } from './components/AiAdvisorModal';
 import { AdminDashboard } from './components/AdminCMS/AdminDashboard';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { AdminBar } from './components/AdminBar';
@@ -84,14 +83,13 @@ const MainContent: React.FC = () => {
         <AboutSection />
         <Curriculum />
         <BusRouteSection />
-        <LifeHealthSection />
+        <HealthSection />
+        <MealSection />
         <GallerySection />
-        <AdmissionsSection />
         <LocationSection />
       </main>
       <Footer />
       <FloatingWidgets />
-      <AiAdvisorModal />
       <AdminLoginModal />
     </div>
   );

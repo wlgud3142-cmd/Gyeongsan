@@ -50,18 +50,19 @@ export const Footer: React.FC = () => {
               <li><a href="#danseol" className="hover:text-white transition-colors">단설유치원이란?</a></li>
               <li><a href="#strengths" className="hover:text-white transition-colors">4대 특장점 & 특색체험</a></li>
               <li><a href="#about" className="hover:text-white transition-colors">유치원 소개 & 현황</a></li>
-              <li><a href="#curriculum" className="hover:text-white transition-colors">누리과정 & 안심돌봄</a></li>
+              <li><a href="#curriculum" className="hover:text-white transition-colors">특색교육 & 안심돌봄</a></li>
               <li><a href="#bus-routes" className="hover:text-white transition-colors">통학차량 5개 코스 안내</a></li>
-              <li><a href="#life-health" className="hover:text-white transition-colors">단독조리 급식 & 보건복지</a></li>
-              <li><a href="#gallery" className="hover:text-white transition-colors">원 시설 & 활동 갤러리</a></li>
-              <li><a href="#admissions" className="hover:text-white text-blue-300 font-semibold transition-colors">2026 신입원아 모집 (부담금 0원)</a></li>
+              <li><a href="#health" className="hover:text-white transition-colors">정규 보건교사 안심케어</a></li>
+              <li><a href="#meals" className="hover:text-white transition-colors">친환경 직영 급식 & 간식</a></li>
+              <li><a href="#gallery" className="hover:text-white transition-colors">경산유치원 포토갤러리</a></li>
+              <li><a href="#location" className="hover:text-white transition-colors">오시는 길 & 위치 안내</a></li>
             </ul>
           </div>
 
           {/* Administrative Details (4 cols) */}
           <div className="md:col-span-4 space-y-2">
             <span className="text-xs font-bold text-slate-200 tracking-wide uppercase block mb-3">
-              기관 정보 및 입학 상담
+              기관 정보 및 원무 상담
             </span>
             <div className="space-y-1.5 text-xs text-slate-400">
               <p>기관유형: 공립 단설 유치원 (총 6학급, 정원 120명)</p>

@@ -3,19 +3,19 @@ import { useKindergarten } from '../../context/KindergartenContext';
 import { OverviewTab } from './OverviewTab';
 import { ContentEditorTab } from './ContentEditorTab';
 import { ThemeCustomizerTab } from './ThemeCustomizerTab';
-import { AdmissionsManagerTab } from './AdmissionsManagerTab';
 import { SeoToolsTab } from './SeoToolsTab';
+import { GalleryManagerTab } from './GalleryManagerTab';
 import {
   LayoutDashboard,
   FileEdit,
   Palette,
-  Users,
   Search,
   Eye,
   RotateCcw,
   CheckCircle2,
   LogOut,
   ShieldCheck,
+  Camera,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -31,10 +31,10 @@ export const AdminDashboard: React.FC = () => {
   } = useKindergarten();
 
   const navItems = [
-    { id: 'overview', label: '모집·상담 개요', icon: LayoutDashboard },
-    { id: 'content', label: '소개·특장점 편집', icon: FileEdit },
+    { id: 'overview', label: '사이트 운영 개요', icon: LayoutDashboard },
+    { id: 'content', label: '소개·특색교육 편집', icon: FileEdit },
+    { id: 'gallery', label: '포토 갤러리 관리', icon: Camera },
     { id: 'themes', label: '디자인 테마/폰트', icon: Palette },
-    { id: 'admissions', label: '예비학부모 원서함', icon: Users },
     { id: 'seo', label: 'SEO & 포털 검색최적화', icon: Search },
   ];
 
@@ -132,8 +132,8 @@ export const AdminDashboard: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeAdminTab === 'overview' && <OverviewTab onTabChange={setActiveAdminTab} />}
         {activeAdminTab === 'content' && <ContentEditorTab />}
+        {activeAdminTab === 'gallery' && <GalleryManagerTab />}
         {activeAdminTab === 'themes' && <ThemeCustomizerTab />}
-        {activeAdminTab === 'admissions' && <AdmissionsManagerTab />}
         {activeAdminTab === 'seo' && <SeoToolsTab />}
       </main>
     </div>
