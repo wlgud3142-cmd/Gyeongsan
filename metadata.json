@@ -1,0 +1,6 @@
+{
+  "name": "경산유치원 | Gyeongsan Kindergarten Official Website & CMS",
+  "description": "공립 단설 경산유치원 공식 2026 예비학부모 입학 안내 및 유치원 소개관. 임용고시 우수교사진, 4대 특장점, 학부모 부담금 0원, 365 안심돌봄, 67인승·25인승 무료 통학버스, 단독 직영급식 및 24시간 AI 입학상담 제공.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
